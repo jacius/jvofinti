@@ -39,11 +39,17 @@ Array.prototype.rebylasna  = Array.prototype.push
 Array.prototype.rebyvimcu  = Array.prototype.pop
 Array.prototype.setca      = Array.prototype.splice
 Array.prototype.porgau     = Array.prototype.sort
+Array.prototype.fatne      = Array.prototype.reverse
 Array.prototype.nilcla     = (-> this.length)
 Array.prototype.judrynahu  = Array.prototype.indexOf
 Array.prototype.vasru      = ((dacti) -> this.indexOf(dacti) != -1;)
 Array.prototype.romoi      = (-> this[this.length-1])
 Array.prototype.fukpi      = (-> this.slice())
+Array.prototype.polje      = ((krasi, fancu) ->
+  (krasi = fancu.call(this, krasi, i)) for i in this
+  return krasi
+)
+Array.prototype.sumji      = (-> this.polje(0, (m,i)->m+i) )
 
 String.prototype.katna     = String.prototype.split
 String.prototype.mapti     = String.prototype.match
@@ -64,9 +70,9 @@ hytytyp_cpacu = (url) ->
 
 
 
-################################
-# LE KARSNA LISTE .JE SAMFANCU #
-################################
+###############################
+# LE KARSNA LISTE JE SAMFANCU #
+###############################
 
 loi_karsna = 'a e i o u y'.katna(' ')
 karsna = 'aeiouy'
@@ -334,15 +340,55 @@ tosmabru_cipra = (rafsymei) ->
   return rafsymei
 
 
+
+#####################
+# LE MELRI SAMFANCU #
+#####################
+
+kancu_mapti = (valsi, lermorna) ->
+  return valsi.katna(lermorna).nilcla() - 1
+
+merli_rafsi = (rafsi) ->
+  c = zunsna
+  v = karsna
+  return 1 if rafsi.mapti(///^[#{c}][#{v}][#{c}][#{c}][#{v}]$///)
+  return 2 if rafsi.mapti(///^[#{c}][#{v}][#{c}][#{c}]$///)
+  return 3 if rafsi.mapti(///^[#{c}][#{c}][#{v}][#{c}][#{v}]$///)
+  return 4 if rafsi.mapti(///^[#{c}][#{c}][#{v}][#{c}]$///)
+  return 5 if rafsi.mapti(///^[#{c}][#{v}][#{c}]$///)
+  return 6 if rafsi.mapti(///^[#{c}][#{v}]'[#{v}]$///)
+  return 7 if rafsi.mapti(///^[#{c}][#{c}][#{v}]$///)
+  return 8 if rafsi.mapti(///^[#{c}][#{v}][#{v}]$///)
+  return 0
+
+merli_rafsymei = (rafsymei) ->
+  lujvo = rafsymei.fengau('')
+  L = lujvo.nilcla()
+  A = kancu_mapti(lujvo, /\'/)
+  H = (r for r in rafsymei when r.mapti(/^[ynr]$/)).nilcla()
+  R = (merli_rafsi(r) for r in rafsymei).sumji()
+  V = kancu_mapti(lujvo, /[aeiou]/)
+  return (1000 * L) - (500 * A) + (100 * H) - (10 * R) - V
+
+porgau_cumrafsymei = (cumrafsymei) ->
+  cumrafsymei = ([merli_rafsymei(r),r] for r in cumrafsymei)
+  return cumrafsymei.porgau((a,b) -> a[0] - b[0])
+
+
+
 ########################
 # LE MUTPAPRI SAMFANCU #
 ########################
 
-jarco_selstidi = (lujvomei) ->
-  lujvomei.sort((a,b)-> a.nilcla() - b.nilcla())
+jarco_selstidi = (cumrafsymei) ->
+  termremei = porgau_cumrafsymei(cumrafsymei)
   liste = document.getElementById('selstidi liste')
-  liste.innerHTML =
-    ("<li>#{lujvo}</li>" for lujvo in lujvomei).fengau('\n')
+  liste.innerHTML = (for cmima in termremei
+    termre = cmima[0]
+    lujvo = cmima[1].fengau('')
+    """<li><span class=\"lujvo\">#{lujvo}</span>
+           <span class=\"termre\">(#{termre})</span></li>"""
+  ).fengau('\n')
   document.getElementById('selstidi').style['display'] = tuho
 
 mipri_selstidi = ->
@@ -355,8 +401,7 @@ pruce_tanru = (lerlinsi) ->
     return unless vlaste[valsi]
   cumrafsymei = zbasu_ro_cumrafsymei(tanru)
   cumrafsymei = (setca_rafterjohe(r) for r in cumrafsymei)
-  lujvomei = (r.fengau('') for r in cumrafsymei)
-  jarco_selstidi(lujvomei)
+  jarco_selstidi(cumrafsymei)
 
 
 window.onload = ->
