@@ -25,7 +25,7 @@
   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   */
 
-  var cpacu_rafsi_liste, hytytyp_cpacu, jarco_selstidi, jetnu, jitfa, karsna, karsna_remei, lanli_rafsi_liste, liherafsi_pe_valsi, loi_karsna, loi_tolvokzunsna, loi_vokzunsna, loi_zunsna, mipri_selstidi, pamoi_zunsna_remei, pruce_tanru, rafsi_liste, rafste, rebrafsi_pe_valsi, relkarsna, setca_rafterjohe, tolselcru_zunsna_remei, tolvokzunsna, tosmabru_cipra, tuho, valsi_pe_rafsi, vlaste, vokzunsna, xu_famlerfu_karsna, xu_famlerfu_zunsna, xu_kralerfu_karsna, xu_kralerfu_zunsna, xu_zunsna_cimei_selcru, xu_zunsna_remei_selcru, zbasu_ro_cumrafsymei, zunsna;
+  var cpacu_rafsi_liste, hytytyp_cpacu, jarco_selstidi, jetnu, jitfa, kancu_mapti, karsna, karsna_remei, lanli_rafsi_liste, liherafsi_pe_valsi, loi_karsna, loi_tolvokzunsna, loi_vokzunsna, loi_zunsna, merli_rafsi, merli_rafsymei, mipri_selstidi, pamoi_zunsna_remei, porgau_cumrafsymei, pruce_tanru, rafsi_liste, rafste, rebrafsi_pe_valsi, relkarsna, setca_rafterjohe, tolselcru_zunsna_remei, tolvokzunsna, tosmabru_cipra, tuho, valsi_pe_rafsi, vlaste, vokzunsna, xu_famlerfu_karsna, xu_famlerfu_zunsna, xu_kralerfu_karsna, xu_kralerfu_zunsna, xu_rotanru_drani, xu_zunsna_cimei_selcru, xu_zunsna_remei_selcru, zbasu_ro_cumrafsymei, zunsna;
   jetnu = true;
   jitfa = false;
   tuho = null;
@@ -35,6 +35,7 @@
   Array.prototype.rebyvimcu = Array.prototype.pop;
   Array.prototype.setca = Array.prototype.splice;
   Array.prototype.porgau = Array.prototype.sort;
+  Array.prototype.fatne = Array.prototype.reverse;
   Array.prototype.nilcla = (function() {
     return this.length;
   });
@@ -47,6 +48,19 @@
   });
   Array.prototype.fukpi = (function() {
     return this.slice();
+  });
+  Array.prototype.polje = (function(krasi, fancu) {
+    var i, _i, _len;
+    for (_i = 0, _len = this.length; _i < _len; _i++) {
+      i = this[_i];
+      krasi = fancu.call(this, krasi, i);
+    }
+    return krasi;
+  });
+  Array.prototype.sumji = (function() {
+    return this.polje(0, function(m, i) {
+      return m + i;
+    });
   });
   String.prototype.katna = String.prototype.split;
   String.prototype.mapti = String.prototype.match;
@@ -265,18 +279,84 @@
     }
     return rafsymei;
   };
-  jarco_selstidi = function(lujvomei) {
-    var liste, lujvo;
-    lujvomei.sort(function(a, b) {
-      return a.nilcla() - b.nilcla();
+  kancu_mapti = function(valsi, lermorna) {
+    return valsi.katna(lermorna).nilcla() - 1;
+  };
+  merli_rafsi = function(rafsi) {
+    var c, v;
+    c = zunsna;
+    v = karsna;
+    if (rafsi.mapti(RegExp("^[" + c + "][" + v + "][" + c + "][" + c + "][" + v + "]$"))) {
+      return 1;
+    }
+    if (rafsi.mapti(RegExp("^[" + c + "][" + v + "][" + c + "][" + c + "]$"))) {
+      return 2;
+    }
+    if (rafsi.mapti(RegExp("^[" + c + "][" + c + "][" + v + "][" + c + "][" + v + "]$"))) {
+      return 3;
+    }
+    if (rafsi.mapti(RegExp("^[" + c + "][" + c + "][" + v + "][" + c + "]$"))) {
+      return 4;
+    }
+    if (rafsi.mapti(RegExp("^[" + c + "][" + v + "][" + c + "]$"))) return 5;
+    if (rafsi.mapti(RegExp("^[" + c + "][" + v + "]'[" + v + "]$"))) return 6;
+    if (rafsi.mapti(RegExp("^[" + c + "][" + c + "][" + v + "]$"))) return 7;
+    if (rafsi.mapti(RegExp("^[" + c + "][" + v + "][" + v + "]$"))) return 8;
+    return 0;
+  };
+  merli_rafsymei = function(rafsymei) {
+    var A, H, L, R, V, lujvo, r;
+    lujvo = rafsymei.fengau('');
+    L = lujvo.nilcla();
+    A = kancu_mapti(lujvo, /\'/);
+    H = ((function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = rafsymei.length; _i < _len; _i++) {
+        r = rafsymei[_i];
+        if (r.mapti(/^[ynr]$/)) _results.push(r);
+      }
+      return _results;
+    })()).nilcla();
+    R = ((function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = rafsymei.length; _i < _len; _i++) {
+        r = rafsymei[_i];
+        _results.push(merli_rafsi(r));
+      }
+      return _results;
+    })()).sumji();
+    V = kancu_mapti(lujvo, /[aeiou]/);
+    return (1000 * L) - (500 * A) + (100 * H) - (10 * R) - V;
+  };
+  porgau_cumrafsymei = function(cumrafsymei) {
+    var r;
+    cumrafsymei = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = cumrafsymei.length; _i < _len; _i++) {
+        r = cumrafsymei[_i];
+        _results.push([merli_rafsymei(r), r]);
+      }
+      return _results;
+    })();
+    return cumrafsymei.porgau(function(a, b) {
+      return a[0] - b[0];
     });
-    liste = document.getElementById('selstidi liste');
+  };
+  jarco_selstidi = function(cumrafsymei) {
+    var cmima, liste, lujvo, termre, termremei;
+    termremei = porgau_cumrafsymei(cumrafsymei);
+    liste = document.getElementById('selstidi-liste');
     liste.innerHTML = ((function() {
       var _i, _len, _results;
       _results = [];
-      for (_i = 0, _len = lujvomei.length; _i < _len; _i++) {
-        lujvo = lujvomei[_i];
-        _results.push("<li>" + lujvo + "</li>");
+      for (_i = 0, _len = termremei.length; _i < _len; _i++) {
+        cmima = termremei[_i];
+        termre = cmima[0];
+        lujvo = cmima[1].fengau('');
+        _results.push("<li><span class=\"lujvo\">" + lujvo + "</span>\n<span class=\"termre\">(" + termre + ")</span></li>");
       }
       return _results;
     })()).fengau('\n');
@@ -285,37 +365,43 @@
   mipri_selstidi = function() {
     return document.getElementById('selstidi').style['display'] = 'none';
   };
-  pruce_tanru = function(lerlinsi) {
-    var cumrafsymei, lujvomei, r, tanru, valsi, _i, _len;
-    tanru = lerlinsi.kutkoivihu().katna(/\s+/);
+  xu_rotanru_drani = function(tanru) {
+    var valsi, _i, _len;
     for (_i = 0, _len = tanru.length; _i < _len; _i++) {
       valsi = tanru[_i];
-      if (!vlaste[valsi]) return;
+      if (!vlaste[valsi]) return false;
+    }
+    return true;
+  };
+  pruce_tanru = function(selpruce) {
+    var cumrafsymei, lerlinsi, r, tanru;
+    lerlinsi = selpruce.value;
+    tanru = lerlinsi.kutkoivihu().katna(/\s+/);
+    if (xu_rotanru_drani(tanru)) {
+      selpruce.className = 'drani';
+    } else if (lerlinsi === '') {
+      selpruce.className = tuho;
+      mipri_selstidi();
+      return;
+    } else {
+      selpruce.className = 'srera';
+      return;
     }
     cumrafsymei = zbasu_ro_cumrafsymei(tanru);
     cumrafsymei = (function() {
-      var _j, _len2, _results;
+      var _i, _len, _results;
       _results = [];
-      for (_j = 0, _len2 = cumrafsymei.length; _j < _len2; _j++) {
-        r = cumrafsymei[_j];
+      for (_i = 0, _len = cumrafsymei.length; _i < _len; _i++) {
+        r = cumrafsymei[_i];
         _results.push(setca_rafterjohe(r));
       }
       return _results;
     })();
-    lujvomei = (function() {
-      var _j, _len2, _results;
-      _results = [];
-      for (_j = 0, _len2 = cumrafsymei.length; _j < _len2; _j++) {
-        r = cumrafsymei[_j];
-        _results.push(r.fengau(''));
-      }
-      return _results;
-    })();
-    return jarco_selstidi(lujvomei);
+    return jarco_selstidi(cumrafsymei);
   };
   window.onload = function() {
-    return document.getElementById('tanru sepruce').onkeyup = function() {
-      return pruce_tanru(this.value);
+    return document.getElementById('tanru-selpruce').onkeyup = function() {
+      return pruce_tanru(this);
     };
   };
 }).call(this);
