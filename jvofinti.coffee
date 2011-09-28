@@ -382,7 +382,7 @@ porgau_cumrafsymei = (cumrafsymei) ->
 
 jarco_selstidi = (cumrafsymei) ->
   termremei = porgau_cumrafsymei(cumrafsymei)
-  liste = document.getElementById('selstidi liste')
+  liste = document.getElementById('selstidi-liste')
   liste.innerHTML = (for cmima in termremei
     termre = cmima[0]
     lujvo = cmima[1].fengau('')
@@ -395,15 +395,32 @@ mipri_selstidi = ->
   document.getElementById('selstidi').style['display'] = 'none'
 
 
-pruce_tanru = (lerlinsi) ->
-  tanru = lerlinsi.kutkoivihu().katna(/\s+/)
+xu_rotanru_drani = (tanru) ->
   for valsi in tanru
-    return unless vlaste[valsi]
+    unless vlaste[valsi]
+      return false
+  return true
+
+
+pruce_tanru = (selpruce) ->
+  lerlinsi = selpruce.value
+  tanru = lerlinsi.kutkoivihu().katna(/\s+/)
+
+  if xu_rotanru_drani(tanru)
+    selpruce.className = 'drani'
+  else if lerlinsi == ''
+    selpruce.className = tuho
+    mipri_selstidi()
+    return
+  else
+    selpruce.className = 'srera'
+    return
+
   cumrafsymei = zbasu_ro_cumrafsymei(tanru)
   cumrafsymei = (setca_rafterjohe(r) for r in cumrafsymei)
   jarco_selstidi(cumrafsymei)
 
 
 window.onload = ->
-  document.getElementById('tanru sepruce').onkeyup = ->
-    pruce_tanru(this.value)
+  document.getElementById('tanru-selpruce').onkeyup = ->
+    pruce_tanru(this)

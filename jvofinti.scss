@@ -1,0 +1,42 @@
+body {
+  font-family: sans-serif, sans;
+  width: 50em;
+  margin-left: 2em;
+}
+
+h1, h2, h3 {
+  margin-left: -0.4em;
+  margin-bottom: 0em;
+}
+
+p {
+  margin-top: 0.5em;
+}
+
+#clinoi {
+}
+
+#tanru-selpruce{
+  &.srera {
+    background: #fee;
+  }
+  &.drani {
+    background: #efe;
+  }
+}
+
+#selstidi-liste {
+
+  padding-left: 1em;
+
+  li:first-child .lujvo {
+    font-weight: bold;
+  }
+
+  .termre {
+    color: #888;
+    font-size: 0.6em;
+    margin-left: 1em;
+    vertical-align: 0.25em;
+  }
+}
