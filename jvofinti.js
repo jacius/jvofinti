@@ -200,22 +200,21 @@
     return cmacnrekursi(rafsymeimei);
   };
   setca_rafterjohe = function(rafsymei) {
-    var ccv, ccvc, cvcc, cvv, i, lamji, nilcla, pamoi, rafsi, remoi, _ref;
+    var ccv, ccvc, cvcc, cvv, i, lamji, pamoi, rafsi, remoi, _ref;
     cvcc = RegExp("^[" + zunsna + "][" + karsna + "][" + zunsna + "][" + zunsna + "]$");
     ccvc = RegExp("^[" + zunsna + "][" + zunsna + "][" + karsna + "][" + zunsna + "]$");
     ccv = RegExp("^[" + zunsna + "][" + zunsna + "][" + karsna + "]$");
     cvv = RegExp("^[" + zunsna + "][" + karsna + "]'?[" + karsna + "]$");
-    nilcla = rafsymei.nilcla();
     pamoi = rafsymei[0];
     remoi = rafsymei[1];
-    if (nilcla > 2 && pamoi.mapti(cvv) && (!remoi.mapti(ccv) || remoi.mapti(ccvc))) {
+    if (rafsymei.nilcla() > 2 && pamoi.mapti(cvv) && (!remoi.mapti(ccv) || remoi.mapti(ccvc))) {
       if (remoi[0] === 'r') {
         rafsymei.setca(1, 0, 'n');
       } else {
         rafsymei.setca(1, 0, 'r');
       }
     }
-    for (i = _ref = nilcla - 1; _ref <= 0 ? i <= 0 : i >= 0; _ref <= 0 ? i++ : i--) {
+    for (i = _ref = rafsymei.nilcla() - 1; _ref <= 0 ? i <= 0 : i >= 0; _ref <= 0 ? i++ : i--) {
       rafsi = rafsymei[i];
       lamji = rafsymei[i - 1];
       if (lamji) {
