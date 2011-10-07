@@ -200,31 +200,6 @@
     return cmacnrekursi(rafsymeimei);
   };
   setca_rafterjohe = function(rafsymei) {
-    var ibu, lamji, lujvo, rafsi, _ref;
-    lujvo = [];
-    for (ibu = _ref = rafsymei.nilcla() - 1; _ref <= 0 ? ibu <= 0 : ibu >= 0; _ref <= 0 ? ibu++ : ibu--) {
-      rafsi = rafsymei[ibu];
-      lamji = rafsymei[ibu - 1];
-      lujvo += rafsi;
-      if (bavlahi) {
-        if (rafsi.mapti(RegExp("^[" + zunsna + "][" + karsna + zunsna + "]{2}[" + zunsna + "]$"))) {
-          lujvo += 'y';
-        } else if (rafsi.mapti(RegExp("^[" + zunsna + "][" + karsna + "][" + zunsna + "]$")) && bavlahi.mapti(RegExp("^[" + zunsna + "]{2}"))) {
-          lujvo += 'y';
-        } else if ((ibu === 0) && rafsi.mapti(/[aeiou]\'?[aeiou]$/)) {
-          if (bavlahi.mapti(RegExp("^[" + zunsna + "][aeiou]"))) {
-            if (bavlahi[0] !== 'r') {
-              lujvo += 'r';
-            } else {
-              lujvo += 'n';
-            }
-          }
-        }
-      }
-    }
-    return lujvo;
-  };
-  setca_rafterjohe = function(rafsymei) {
     var ccv, ccvc, cvcc, cvv, i, lamji, nilcla, pamoi, rafsi, remoi, _ref;
     cvcc = RegExp("^[" + zunsna + "][" + karsna + "][" + zunsna + "][" + zunsna + "]$");
     ccvc = RegExp("^[" + zunsna + "][" + zunsna + "][" + karsna + "][" + zunsna + "]$");
@@ -235,9 +210,9 @@
     remoi = rafsymei[1];
     if (nilcla > 2 && pamoi.mapti(cvv) && (!remoi.mapti(ccv) || remoi.mapti(ccvc))) {
       if (remoi[0] === 'r') {
-        rafsymei.setca(1, 0, 'r');
-      } else {
         rafsymei.setca(1, 0, 'n');
+      } else {
+        rafsymei.setca(1, 0, 'r');
       }
     }
     for (i = _ref = nilcla - 1; _ref <= 0 ? i <= 0 : i >= 0; _ref <= 0 ? i++ : i--) {
